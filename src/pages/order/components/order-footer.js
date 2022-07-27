@@ -1,0 +1,50 @@
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+
+export const OrderFooter = () => {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.btn_add}
+        onPress={() => navigation.navigate("MenuScreen")}
+      >
+        <Text style={styles.text}>ADICIONAR PRODUTO</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btn_close}>
+        <Text style={styles.text}>FINALIZAR COMANDA</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: "95%",
+    height: "14%",
+    marginTop: 10,
+    alignSelf: "center",
+    alignItems: "center",
+  },
+  btn_add: {
+    width: "100%",
+    height: "40%",
+    marginBottom: 10,
+    backgroundColor: "#3a6dff",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  btn_close: {
+    backgroundColor: "#3a6dff",
+    width: "100%",
+    height: "40%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
+  text: {
+    color: "#ffff",
+  },
+});
