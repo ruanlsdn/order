@@ -7,14 +7,15 @@ export const OrderBodyRow = () => {
     <View style={styles.container}>
       <View style={styles.content_container}>
         <View style={styles.icon_container}>
-          <Icon name="tapas" size={18} />
+          <Icon name="tapas" size={30} />
         </View>
         <View style={styles.table_name}>
-          <Text>Espetinho </Text>
-          <Text>Comida </Text>
+          <Text style={{ fontSize: 18 }}>Espetinho </Text>
+          <Text style={{ color: "#828282" }}>Comida </Text>
         </View>
         <View style={styles.table_description}>
-          <Text>Qtd: 1</Text>
+          <Text style={{ fontSize: 15 }}>Quant.</Text>
+          <Text style={{ color: "#828282" }}>x1</Text>
         </View>
       </View>
     </View>
@@ -24,7 +25,7 @@ export const OrderBodyRow = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "12%",
+    height: 80,
     backgroundColor: "#ffff",
     marginTop: 10,
     borderRadius: 7,
@@ -41,16 +42,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ececec",
-    height: "50%",
-    width: "10%",
+    height: 60,
+    width: 60,
     elevation: 7,
     borderRadius: 7,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
   },
   table_name: {
     display: "flex",
     flexDirection: "column",
-    width: "65%",
+    width: "63%",
   },
   table_description: {
     display: "flex",
