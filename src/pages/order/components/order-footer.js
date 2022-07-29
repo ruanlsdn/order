@@ -8,7 +8,7 @@ import { finalizarComanda } from "../../../services/api";
 
 export const OrderFooter = ({ comanda }) => {
   const navigation = useNavigation();
-  const { setComandaId, setFinalizar } = useContext(ComandaContext);
+  const { setComandaId, finalizar } = useContext(ComandaContext);
   const { restaurante } = useContext(RestauranteContext);
   const { buscar, buscarTodasCategorias } = useContext(ProdutoContext);
   return (
@@ -26,8 +26,7 @@ export const OrderFooter = ({ comanda }) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          setFinalizar(true);
-          finalizarComanda(comanda.id);
+          finalizar(comanda.id);
         }}
         style={styles.btn_close}
       >

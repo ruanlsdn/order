@@ -4,16 +4,17 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { ComandaContext } from "../../../../contexts/comanda";
 
-export const TableChart = ({ id, numero }) => {
+export const TableChart = ({ mesa }) => {
   const navigation = useNavigation();
-  const { buscar, setMesaId } = useContext(ComandaContext);
+  const { buscar, setMesaId, setQtdeComanda } = useContext(ComandaContext);
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        buscar(id);
-        setMesaId(id);
+        buscar(mesa.id);
+        setMesaId(mesa.id);
+        setQtdeComanda(mesa._count.comandas);
         navigation.navigate("OrderScreen");
       }}
     >
@@ -22,12 +23,12 @@ export const TableChart = ({ id, numero }) => {
           <Icon name="tapas" size={30} />
         </View>
         <View style={styles.table_container}>
-          <Text>Mesa {numero}</Text>
-          <Text>Disponível</Text>
+          <Text>Mesa {mesa.numero}</Text>
+          <Text>{mesa._count.comandas == 0 ? "Disponível" : "Ocupado"}</Text>
         </View>
         <View style={styles.table_description_container}>
           <Icon name="description" size={25} />
-          <Text>1</Text>
+          <Text>{mesa._count.comandas}</Text>
         </View>
       </View>
     </TouchableOpacity>

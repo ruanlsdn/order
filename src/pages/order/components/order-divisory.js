@@ -19,7 +19,7 @@ export const OrderDivisory = ({ text }) => {
           alignSelf: "center",
         }}
       />
-      <Text style={{ alignSelf: "center", paddingHorizontal: 5, fontSize: 20 }}>
+      <Text style={{ alignSelf: "center", paddingHorizontal: 5, fontSize: 15 }}>
         {text}
       </Text>
       <View

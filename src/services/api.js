@@ -12,21 +12,27 @@ export async function buscarRestaurante(name) {
 }
 
 //COMANDA REQUEST
-export async function buscarComanda(id) {
+export async function criarComanda(data) {
   return await (
-    await api.get("api/v1/comanda/buscar/" + id)
+    await api.post("api/v1/comanda", data)
   ).data;
 }
 
-export async function calcularComanda(id) {
+export async function buscarComanda(mesaId) {
   return await (
-    await api.get("api/v1/comanda/calcular/" + id)
+    await api.get("api/v1/comanda/buscar/" + mesaId)
   ).data;
 }
 
-export async function finalizarComanda(id) {
+export async function calcularComanda(comandaId) {
   return await (
-    await api.get("api/v1/comanda/finalizar/" + id)
+    await api.get("api/v1/comanda/calcular/" + comandaId)
+  ).data;
+}
+
+export async function finalizarComanda(comandaId) {
+  return await (
+    await api.get("api/v1/comanda/finalizar/" + comandaId)
   ).data;
 }
 

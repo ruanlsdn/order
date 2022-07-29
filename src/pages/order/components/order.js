@@ -9,7 +9,7 @@ import { OrderDivisory } from "./order-divisory";
 export const Order = ({ comanda, index }) => {
   return (
     <>
-      <OrderDivisory text={"COMANDA " + index + ""} />
+      <OrderDivisory text={`COMANDA ${index} - ${comanda.cliente}`} />
       <View style={styles.container}>
         <OrderHeader id={comanda.id} />
         <OrderBody pedidos={comanda.pedidos} />
