@@ -1,10 +1,18 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { ProdutoContext } from "../../../contexts/produto";
+import { RestauranteContext } from "../../../contexts/restaurante";
 
-export const MenuHeaderCategories = () => {
+export const MenuHeaderCategories = ({ categoria }) => {
+  const { restaurante } = useContext(RestauranteContext);
+  const { buscarPelaCategoria } = useContext(ProdutoContext);
+
   return (
-    <TouchableOpacity style={styles.container}>
-      <Text style={{ color: "#ffff" }}>CERVEJAS</Text>
+    <TouchableOpacity
+      onPress={() => buscarPelaCategoria(restaurante.id, categoria.descricao)}
+      style={styles.container}
+    >
+      <Text style={{ color: "#ffff" }}>{categoria.descricao}</Text>
     </TouchableOpacity>
   );
 };

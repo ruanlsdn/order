@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuBodyRowModal } from "./modal";
 
-export const MenuBodyRow = () => {
+export const MenuBodyRow = ({ produto }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -18,17 +18,25 @@ export const MenuBodyRow = () => {
               <Icon name="tapas" size={45} />
             </View>
             <View style={styles.product_description}>
-              <Text style={{ fontSize: 18 }}>Espetinho </Text>
-              <Text style={{ color: "#828282" }}>Comida </Text>
+              <Text style={{ fontSize: 15 }}>{produto.descricao} </Text>
+              <Text style={{ fontSize: 12, color: "#828282" }}>
+                {produto.Categoria.descricao}{" "}
+              </Text>
             </View>
             <View style={styles.form}>
               <Text style={{ fontSize: 15 }}>Preço</Text>
-              <Text style={{ color: "#828282" }}>R$ 7,00</Text>
+              <Text style={{ color: "#828282" }}>
+                R$ {Number(produto.preco).toFixed(2)}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
       </>
-      <MenuBodyRowModal show={showModal} setShowModal={setShowModal} />
+      <MenuBodyRowModal
+        show={showModal}
+        produto={produto}
+        setShowModal={setShowModal}
+      />
     </>
   );
 };
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
   product_description: {
     display: "flex",
     flexDirection: "column",
-    width: "60%",
+    width: "57%",
   },
   form: {
     display: "flex",

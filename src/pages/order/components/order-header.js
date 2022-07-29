@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Divider } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-export const OrderHeader = () => {
+export const OrderHeader = ({ id }) => {
   return (
     <>
       <View style={styles.container}>
@@ -11,7 +11,7 @@ export const OrderHeader = () => {
           <Icon name="list" size={40} />
         </View>
         <View style={styles.description_container}>
-          <Text style={styles.description}>ID: 9128391231231</Text>
+          <Text style={styles.description}>ID: {id}</Text>
         </View>
       </View>
       <Divider style={styles.divider} />

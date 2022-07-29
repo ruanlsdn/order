@@ -1,45 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView, StyleSheet } from "react-native";
+import { ProdutoContext } from "../../../contexts/produto";
 import { MenuBodyRow } from "./menu-body-row";
 
 export const MenuBody = () => {
+  const { produtos } = useContext(ProdutoContext);
   return (
     <ScrollView
       style={{ flex: 1, width: "95%", alignSelf: "center" }}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
-      <MenuBodyRow />
+      {produtos.map((produto) => (
+        <MenuBodyRow key={produto.id} produto={produto} />
+      ))}
     </ScrollView>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { OrderHeader } from "./order-header";
 import { OrderBody } from "./order-body";
@@ -6,15 +6,15 @@ import { OrderBodySummary } from "./order-body-summary";
 import { OrderFooter } from "./order-footer";
 import { OrderDivisory } from "./order-divisory";
 
-export const Order = ({ index }) => {
+export const Order = ({ comanda, index }) => {
   return (
     <>
       <OrderDivisory text={"COMANDA " + index + ""} />
       <View style={styles.container}>
-        <OrderHeader />
-        <OrderBody />
-        <OrderBodySummary />
-        <OrderFooter />
+        <OrderHeader id={comanda.id} />
+        <OrderBody pedidos={comanda.pedidos} />
+        <OrderBodySummary id={comanda.id} />
+        <OrderFooter comanda={comanda} />
       </View>
       <OrderDivisory text="FIM" />
     </>

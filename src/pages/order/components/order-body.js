@@ -3,7 +3,7 @@ import React from "react";
 import { OrderBodyRow } from "./order-body-row";
 import { Divider } from "react-native-paper";
 
-export const OrderBody = () => {
+export const OrderBody = ({ pedidos }) => {
   return (
     <>
       <View style={styles.container}>
@@ -11,17 +11,19 @@ export const OrderBody = () => {
           nestedScrollEnabled={true}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
-          <OrderBodyRow />
+          {pedidos.length == 0 ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 20 }}>Não há pedidos.</Text>
+            </View>
+          ) : (
+            pedidos.map((item) => <OrderBodyRow item={item} />)
+          )}
         </ScrollView>
       </View>
       <Divider style={styles.divider} />

@@ -1,18 +1,36 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { ComandaContext } from "../../../contexts/comanda";
+import { ProdutoContext } from "../../../contexts/produto";
+import { RestauranteContext } from "../../../contexts/restaurante";
+import { finalizarComanda } from "../../../services/api";
 
-export const OrderFooter = () => {
+export const OrderFooter = ({ comanda }) => {
   const navigation = useNavigation();
+  const { setComandaId, setFinalizar } = useContext(ComandaContext);
+  const { restaurante } = useContext(RestauranteContext);
+  const { buscar, buscarTodasCategorias } = useContext(ProdutoContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.btn_add}
-        onPress={() => navigation.navigate("MenuScreen")}
+        onPress={() => {
+          setComandaId(comanda.id);
+          buscar(restaurante.id);
+          buscarTodasCategorias();
+          navigation.navigate("MenuScreen");
+        }}
       >
         <Text style={styles.text}>ADICIONAR PRODUTO</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btn_close}>
+      <TouchableOpacity
+        onPress={() => {
+          setFinalizar(true);
+          finalizarComanda(comanda.id);
+        }}
+        style={styles.btn_close}
+      >
         <Text style={styles.text}>FINALIZAR COMANDA</Text>
       </TouchableOpacity>
     </View>

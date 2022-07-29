@@ -1,21 +1,28 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import { ComandaContext } from "../../../../contexts/comanda";
 
-export const TableChart = () => {
+export const TableChart = ({ id, numero }) => {
   const navigation = useNavigation();
+  const { buscar, setMesaId } = useContext(ComandaContext);
+
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate("OrderScreen")}
+      onPress={() => {
+        buscar(id);
+        setMesaId(id);
+        navigation.navigate("OrderScreen");
+      }}
     >
       <View style={styles.content_container}>
         <View style={styles.icon_container}>
           <Icon name="tapas" size={30} />
         </View>
         <View style={styles.table_container}>
-          <Text>Mesa 1</Text>
+          <Text>Mesa {numero}</Text>
           <Text>Disponível</Text>
         </View>
         <View style={styles.table_description_container}>

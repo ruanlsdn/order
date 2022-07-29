@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
+import { ProdutoContext } from "../../../contexts/produto";
+import { RestauranteContext } from "../../../contexts/restaurante";
 import { MenuHeaderCategories } from "./menu-header-categories";
 
 export const MenuHeader = () => {
+  const [text, setText] = useState("");
+  const { restaurante } = useContext(RestauranteContext);
+  const { categorias, buscarPeloNome } = useContext(ProdutoContext);
+
   return (
     <View style={styles.container}>
       <View style={styles.search_bar_container}>
@@ -12,10 +18,12 @@ export const MenuHeader = () => {
           placeholder="Pesquisar..."
           style={styles.text_input}
           mode="outlined"
+          value={text}
+          onChangeText={(text) => setText(text)}
           right={
             <TextInput.Icon
               style={{ marginTop: 15 }}
-              onPress={() => console.log("buscando...")}
+              onPress={() => buscarPeloNome(text, restaurante.id)}
               name="magnify"
             />
           }
@@ -23,12 +31,10 @@ export const MenuHeader = () => {
       </View>
       <View style={{ height: 100, padding: 5 }}>
         <ScrollView horizontal>
-          <MenuHeaderCategories />
-          <MenuHeaderCategories />
-          <MenuHeaderCategories />
-          <MenuHeaderCategories />
-          <MenuHeaderCategories />
-          <MenuHeaderCategories />
+          <MenuHeaderCategories categoria={{ descricao: "TODOS" }} />
+          {categorias.map((categoria, i) => (
+            <MenuHeaderCategories key={i} categoria={categoria} />
+          ))}
         </ScrollView>
       </View>
     </View>

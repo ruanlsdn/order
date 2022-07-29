@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Menu } from "./components/menu";
+import { ProdutoContext } from "../../contexts/produto";
 
 export const MenuScreen = () => {
   return <Menu />;

@@ -7,11 +7,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { PedidoContext } from "../../../contexts/pedido";
+import { buscarComanda } from "../../../services/api";
+import { ComandaContext } from "../../../contexts/comanda";
 
-export const MenuBodyRowModal = ({ show, setShowModal }) => {
+export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
   const [text, setText] = useState("1");
+  const { novo } = useContext(PedidoContext);
+  const { mesaId } = useContext(ComandaContext);
   return (
     <Modal
       animationType="slide"
@@ -44,8 +49,8 @@ export const MenuBodyRowModal = ({ show, setShowModal }) => {
                 }}
               >
                 <View style={{ width: "80%" }}>
-                  <Text>CERVEJA LONG NECK</Text>
-                  <Text>Produto A</Text>
+                  <Text>{produto.descricao}</Text>
+                  <Text>{produto.Categoria.descricao}</Text>
                 </View>
                 <View
                   style={{
@@ -54,7 +59,7 @@ export const MenuBodyRowModal = ({ show, setShowModal }) => {
                   }}
                 >
                   <Text>Unidade</Text>
-                  <Text>R$ 7,00</Text>
+                  <Text>R$ {Number(produto.preco).toFixed(2)}</Text>
                 </View>
               </View>
               <View
@@ -108,8 +113,10 @@ export const MenuBodyRowModal = ({ show, setShowModal }) => {
           <TouchableOpacity
             style={styles.btn_add}
             onPress={() => {
+              novo(text, produto.id);
               setShowModal(!show);
               setText("1");
+              buscarComanda(mesaId);
             }}
           >
             <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>

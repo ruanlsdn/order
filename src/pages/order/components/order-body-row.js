@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-export const OrderBodyRow = () => {
+export const OrderBodyRow = ({ item }) => {
   return (
     <View style={styles.container}>
       <View style={styles.content_container}>
@@ -10,12 +10,14 @@ export const OrderBodyRow = () => {
           <Icon name="tapas" size={30} />
         </View>
         <View style={styles.table_name}>
-          <Text style={{ fontSize: 18 }}>Espetinho </Text>
-          <Text style={{ color: "#828282" }}>Comida </Text>
+          <Text style={{ fontSize: 18 }}>{item.produto.descricao} </Text>
+          <Text style={{ color: "#828282" }}>
+            {item.produto.Categoria.descricao}
+          </Text>
         </View>
         <View style={styles.table_description}>
           <Text style={{ fontSize: 15 }}>Quant.</Text>
-          <Text style={{ color: "#828282" }}>x1</Text>
+          <Text style={{ color: "#828282" }}>x{item.quantidade}</Text>
         </View>
       </View>
     </View>
