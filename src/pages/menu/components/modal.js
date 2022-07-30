@@ -48,17 +48,18 @@ export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
                   flexDirection: "row",
                 }}
               >
-                <View style={{ width: "80%" }}>
+                <View style={{ width: "75%" }}>
                   <Text>{produto.descricao}</Text>
                   <Text>{produto.Categoria.descricao}</Text>
                 </View>
                 <View
                   style={{
-                    width: "20%",
+                    width: "25%",
                     justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  <Text>Unidade</Text>
+                  <Text>Preço</Text>
                   <Text>R$ {Number(produto.preco).toFixed(2)}</Text>
                 </View>
               </View>
