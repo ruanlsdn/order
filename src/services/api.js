@@ -11,6 +11,18 @@ export async function buscarRestaurante(name) {
   ).data;
 }
 
+export async function criarMesa(data) {
+  return await (
+    await api.post("api/v1/mesa", data)
+  ).data;
+}
+
+export async function apagarMesa(mesaId) {
+  return await (
+    await api.delete("api/v1/mesa/" + mesaId)
+  ).data;
+}
+
 //COMANDA REQUEST
 export async function criarComanda(data) {
   return await (

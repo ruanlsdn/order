@@ -7,17 +7,19 @@ export const OrderBodyRow = ({ item }) => {
     <View style={styles.container}>
       <View style={styles.content_container}>
         <View style={styles.icon_container}>
-          <Icon name="tapas" size={30} />
+          <Icon name="tapas" size={20} />
         </View>
         <View style={styles.table_name}>
-          <Text style={{ fontSize: 18 }}>{item.produto.descricao} </Text>
-          <Text style={{ color: "#828282" }}>
+          <Text style={{ fontSize: 12 }}>{item.produto.descricao} </Text>
+          <Text style={{ fontSize: 10, color: "#828282" }}>
             {item.produto.Categoria.descricao}
           </Text>
         </View>
         <View style={styles.table_description}>
-          <Text style={{ fontSize: 15 }}>Quant.</Text>
-          <Text style={{ color: "#828282" }}>x{item.quantidade}</Text>
+          <Text style={{ fontSize: 12 }}>Quant.</Text>
+          <Text style={{ fontSize: 10, color: "#828282" }}>
+            x{item.quantidade}
+          </Text>
         </View>
       </View>
     </View>
@@ -27,7 +29,7 @@ export const OrderBodyRow = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: 80,
+    height: 50,
     backgroundColor: "#ffff",
     marginTop: 10,
     borderRadius: 7,
@@ -44,8 +46,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#ececec",
-    height: 60,
-    width: 60,
+    height: 30,
+    width: 30,
     elevation: 7,
     borderRadius: 7,
     marginHorizontal: 10,
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
   table_name: {
     display: "flex",
     flexDirection: "column",
-    width: "63%",
+    width: "72%",
   },
   table_description: {
     display: "flex",

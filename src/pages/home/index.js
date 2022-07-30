@@ -1,17 +1,17 @@
 import { useIsFocused } from "@react-navigation/native";
-import React, { useContext, useEffect, useState } from "react";
-import { ScrollView, View, Text } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { RestauranteContext } from "../../contexts/restaurante";
-import { findByName } from "../../services/api";
 import { TableChart } from "./components/TableChart";
 
 export const Home = () => {
-  const { restaurante, buscar } = useContext(RestauranteContext);
+  const { restaurante, buscar, flag, setFlag } = useContext(RestauranteContext);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused) buscar("TESTE");
-  }, [isFocused]);
+    if (isFocused || flag) buscar("TESTE");
+    setFlag(false);
+  }, [isFocused, flag]);
 
   return restaurante == null ? (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -19,8 +19,8 @@ export const Home = () => {
     </View>
   ) : (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      {restaurante.mesas.map((mesa) => (
-        <TableChart key={mesa.id} mesa={mesa} />
+      {restaurante.mesas.map((mesa, i) => (
+        <TableChart key={mesa.id} mesa={mesa} index={i} />
       ))}
     </ScrollView>
   );

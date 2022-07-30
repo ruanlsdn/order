@@ -34,6 +34,7 @@ export const ProdutoProvider = ({ children }) => {
         produtos: produtos,
         buscar,
         buscarPelaCategoria,
+        buscarPeloNome,
         categorias: categorias,
         buscarTodasCategorias,
       }}

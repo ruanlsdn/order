@@ -28,5 +28,6 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     backgroundColor: "#ffff",
+    borderRadius: 5,
   },
 });

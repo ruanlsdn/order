@@ -1,11 +1,20 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import React, { useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  AlertButton,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { ComandaContext } from "../../../../contexts/comanda";
+import { RestauranteContext } from "../../../../contexts/restaurante";
 
-export const TableChart = ({ mesa }) => {
+export const TableChart = ({ mesa, index }) => {
   const navigation = useNavigation();
+  const { apagar } = useContext(RestauranteContext);
   const { buscar, setMesaId, setQtdeComanda } = useContext(ComandaContext);
 
   return (
@@ -17,10 +26,26 @@ export const TableChart = ({ mesa }) => {
         setQtdeComanda(mesa._count.comandas);
         navigation.navigate("OrderScreen");
       }}
+      onLongPress={() =>
+        Alert.alert(
+          "Deseja apagar essa mesa?",
+          "Todas as informações serão perdidas.",
+          [
+            { text: "NÃO", style: "cancel", onPress: () => {} },
+            {
+              text: "APAGAR",
+              style: "destructive",
+              onPress: () => {
+                apagar(mesa.id);
+              },
+            },
+          ]
+        )
+      }
     >
       <View style={styles.content_container}>
         <View style={styles.icon_container}>
-          <Icon name="tapas" size={30} />
+          <Icon name="deck" size={30} />
         </View>
         <View style={styles.table_container}>
           <Text>Mesa {mesa.numero}</Text>

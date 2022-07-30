@@ -22,7 +22,7 @@ export const OrderBody = ({ pedidos }) => {
               <Text style={{ fontSize: 20 }}>Não há pedidos.</Text>
             </View>
           ) : (
-            pedidos.map((item) => <OrderBodyRow item={item} />)
+            pedidos.map((item) => <OrderBodyRow key={item.id} item={item} />)
           )}
         </ScrollView>
       </View>
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ececec",
     alignSelf: "center",
     alignItems: "center",
+    borderRadius: 5,
   },
   divider: { height: 3, width: "95%", alignSelf: "center" },
 });

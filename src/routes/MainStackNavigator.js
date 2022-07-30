@@ -4,13 +4,18 @@ import { Home } from "../pages/home";
 import { OrderScreen } from "../pages/order";
 import { MenuScreen } from "../pages/menu";
 import { OrderHeaderRight } from "../pages/order/components/order-header-right";
+import { HomeHeaderRight } from "../pages/home/components/home-header-right";
 
 const Stack = createStackNavigator();
 
 export default function MainStackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{ title: "Mesas" }} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ title: "Mesas", headerRight: HomeHeaderRight }}
+      />
       <Stack.Screen
         name="OrderScreen"
         component={OrderScreen}

@@ -8,7 +8,7 @@ export const OrderHeader = ({ id }) => {
     <>
       <View style={styles.container}>
         <View style={styles.icon_container}>
-          <Icon name="list" size={40} />
+          <Icon name="list" size={35} />
         </View>
         <View style={styles.description_container}>
           <Text style={styles.description}>ID: {id}</Text>
