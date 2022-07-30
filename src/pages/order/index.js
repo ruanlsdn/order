@@ -3,10 +3,20 @@ import { ScrollView, View, Text } from "react-native";
 import { Order } from "./components/order";
 import { ComandaContext } from "../../contexts/comanda";
 import { useIsFocused } from "@react-navigation/native";
+import { MySnackbar } from "../home/components/snackbar";
 
 export const OrderScreen = () => {
-  const { comandas, buscar, mesaId, qtdeComanda, flag, setFlag } =
-    useContext(ComandaContext);
+  const {
+    comandas,
+    buscar,
+    mesaId,
+    qtdeComanda,
+    flag,
+    setFlag,
+    text,
+    visibility,
+    setVisibility,
+  } = useContext(ComandaContext);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -17,18 +27,25 @@ export const OrderScreen = () => {
   }, [isFocused, flag]);
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      {qtdeComanda == 0 ? (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text style={{ fontSize: 20 }}>Não há comandas.</Text>
-        </View>
-      ) : (
-        comandas.map((comanda, i) => (
-          <Order key={comanda.id} comanda={comanda} index={i + 1} />
-        ))
-      )}
-    </ScrollView>
+    <>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {qtdeComanda == 0 ? (
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 20 }}>Não há comandas.</Text>
+          </View>
+        ) : (
+          comandas.map((comanda, i) => (
+            <Order key={comanda.id} comanda={comanda} index={i + 1} />
+          ))
+        )}
+      </ScrollView>
+      <MySnackbar
+        text={text}
+        visible={visibility}
+        setVisibility={setVisibility}
+      />
+    </>
   );
 };

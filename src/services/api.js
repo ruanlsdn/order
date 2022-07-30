@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://10.0.2.2:3000/",
+  baseURL: "https://order-controller-api.herokuapp.com/",
 });
 
 //RESTAURANTE REQUEST
@@ -14,20 +14,20 @@ export async function buscarRestaurante(name) {
 export async function criarMesa(data) {
   return await (
     await api.post("api/v1/mesa", data)
-  ).data;
+  ).status;
 }
 
 export async function apagarMesa(mesaId) {
   return await (
     await api.delete("api/v1/mesa/" + mesaId)
-  ).data;
+  ).status;
 }
 
 //COMANDA REQUEST
 export async function criarComanda(data) {
   return await (
     await api.post("api/v1/comanda", data)
-  ).data;
+  ).status;
 }
 
 export async function buscarComanda(mesaId) {
@@ -45,7 +45,7 @@ export async function calcularComanda(comandaId) {
 export async function finalizarComanda(comandaId) {
   return await (
     await api.get("api/v1/comanda/finalizar/" + comandaId)
-  ).data;
+  ).status;
 }
 
 //PRODUTO REQUEST

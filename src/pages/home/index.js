@@ -2,14 +2,23 @@ import { useIsFocused } from "@react-navigation/native";
 import React, { useContext, useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { RestauranteContext } from "../../contexts/restaurante";
+import { MySnackbar } from "./components/snackbar";
 import { TableChart } from "./components/TableChart";
 
 export const Home = () => {
-  const { restaurante, buscar, flag, setFlag } = useContext(RestauranteContext);
+  const {
+    restaurante,
+    buscar,
+    flag,
+    setFlag,
+    text,
+    visibility,
+    setVisibility,
+  } = useContext(RestauranteContext);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused || flag) buscar("TESTE");
+    if (isFocused || flag) buscar("RC CHURRASCO");
     setFlag(false);
   }, [isFocused, flag]);
 
@@ -18,10 +27,17 @@ export const Home = () => {
       <Text style={{ fontSize: 20 }}>Não há mesas.</Text>
     </View>
   ) : (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      {restaurante.mesas.map((mesa, i) => (
-        <TableChart key={mesa.id} mesa={mesa} index={i} />
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        {restaurante.mesas.map((mesa, i) => (
+          <TableChart key={mesa.id} mesa={mesa} index={i} />
+        ))}
+      </ScrollView>
+      <MySnackbar
+        text={text}
+        visible={visibility}
+        setVisibility={setVisibility}
+      />
+    </>
   );
 };

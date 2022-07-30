@@ -9,9 +9,18 @@ export const ComandaProvider = ({ children }) => {
   const [mesaId, setMesaId] = useState("");
   const [comandaId, setComandaId] = useState("");
   const [qtdeComanda, setQtdeComanda] = useState(0);
+  const [text, setText] = useState("");
+  const [visibility, setVisibility] = useState(false);
 
   async function criar(data) {
-    await criarComanda({ cliente: "teste", mesa_id: mesaId });
+    const response = await criarComanda({
+      cliente: "CLIENTE TESTE",
+      mesa_id: mesaId,
+    });
+    if (response == 201) {
+      setVisibility(true);
+      setText("Comanda adicionada com sucesso!");
+    }
     await buscar(mesaId);
     setQtdeComanda(1);
   }
@@ -21,8 +30,11 @@ export const ComandaProvider = ({ children }) => {
   }
 
   async function finalizar(comandaId) {
-    await finalizarComanda(comandaId);
-    if (comandas.length == 0) setQtdeComanda(0);
+    const response = await finalizarComanda(comandaId);
+    if (response == 200) {
+      setVisibility(true);
+      setText("Comanda finalizada com sucesso!");
+    }
     setFlag(true);
   }
 
@@ -41,6 +53,9 @@ export const ComandaProvider = ({ children }) => {
         flag: flag,
         qtdeComanda: qtdeComanda,
         setQtdeComanda,
+        text: text,
+        visibility: visibility,
+        setVisibility,
       }}
     >
       {children}
