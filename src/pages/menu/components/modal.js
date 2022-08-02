@@ -16,7 +16,7 @@ import { ComandaContext } from "../../../contexts/comanda";
 export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
   const [text, setText] = useState("1");
   const { novo } = useContext(PedidoContext);
-  const { mesaId } = useContext(ComandaContext);
+  const { mesaId, setFlag } = useContext(ComandaContext);
   return (
     <Modal
       animationType="slide"
@@ -117,7 +117,7 @@ export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
               novo(text, produto.id);
               setShowModal(!show);
               setText("1");
-              buscarComanda(mesaId);
+              setFlag(true);
             }}
           >
             <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>

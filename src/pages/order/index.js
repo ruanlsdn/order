@@ -4,6 +4,7 @@ import { Order } from "./components/order";
 import { ComandaContext } from "../../contexts/comanda";
 import { useIsFocused } from "@react-navigation/native";
 import { MySnackbar } from "../home/components/snackbar";
+import { ComandaModal } from "./components/order-modal-nova-comanda";
 
 export const OrderScreen = () => {
   const {
@@ -16,14 +17,15 @@ export const OrderScreen = () => {
     text,
     visibility,
     setVisibility,
+    showComandaModal,
   } = useContext(ComandaContext);
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused || flag) {
+    if (isFocused && flag) {
       buscar(mesaId);
+      setFlag(false);
     }
-    setFlag(false);
   }, [isFocused, flag]);
 
   return (
@@ -46,6 +48,7 @@ export const OrderScreen = () => {
         visible={visibility}
         setVisibility={setVisibility}
       />
+      <ComandaModal show={showComandaModal} />
     </>
   );
 };

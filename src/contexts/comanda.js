@@ -1,5 +1,10 @@
 import { createContext, useState } from "react";
-import { buscarComanda, criarComanda, finalizarComanda } from "../services/api";
+import {
+  buscarComanda,
+  calcularComanda,
+  criarComanda,
+  finalizarComanda,
+} from "../services/api";
 
 export const ComandaContext = createContext({});
 
@@ -11,30 +16,42 @@ export const ComandaProvider = ({ children }) => {
   const [qtdeComanda, setQtdeComanda] = useState(0);
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(false);
+  const [dividirCriar, setDividirCriar] = useState(false);
+  const [showComandaModal, setShowComandaModal] = useState(false);
 
   async function criar(data) {
     const response = await criarComanda({
       cliente: "CLIENTE TESTE",
       mesa_id: mesaId,
     });
+
     if (response == 201) {
       setVisibility(true);
       setText("Comanda adicionada com sucesso!");
     }
-    await buscar(mesaId);
+
     setQtdeComanda(1);
+    setFlag(true);
+  }
+
+  async function calcular(comandaId) {
+    return await calcularComanda(comandaId);
   }
 
   async function buscar(mesaId) {
-    setComandas(await buscarComanda(mesaId));
+    const response = await buscarComanda(mesaId);
+    if (response.length == 0) setQtdeComanda(0);
+    setComandas(response);
   }
 
   async function finalizar(comandaId) {
     const response = await finalizarComanda(comandaId);
+
     if (response == 200) {
       setVisibility(true);
       setText("Comanda finalizada com sucesso!");
     }
+
     setFlag(true);
   }
 
@@ -44,6 +61,7 @@ export const ComandaProvider = ({ children }) => {
         comandas: comandas,
         criar,
         buscar,
+        calcular,
         finalizar,
         setComandaId,
         comandaId: comandaId,
@@ -56,6 +74,10 @@ export const ComandaProvider = ({ children }) => {
         text: text,
         visibility: visibility,
         setVisibility,
+        showComandaModal: showComandaModal,
+        setShowComandaModal,
+        dividirCriar: dividirCriar,
+        setDividirCriar,
       }}
     >
       {children}
