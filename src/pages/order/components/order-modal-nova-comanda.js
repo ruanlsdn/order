@@ -19,7 +19,7 @@ export const ComandaModal = ({ show }) => {
     useContext(ComandaContext);
   const [comanda, setComanda] = useState(null);
   const [text, setText] = useState("1");
-  const [total, setTotal] = useState(Number("0").toFixed(2));
+  let sum = Number(comanda / text).toFixed(2);
 
   return (
     <Modal
@@ -28,6 +28,7 @@ export const ComandaModal = ({ show }) => {
       visible={show}
       onRequestClose={() => {
         setShowComandaModal(!show);
+        setComanda(null);
       }}
     >
       <View style={styles.centeredView}>
@@ -37,13 +38,16 @@ export const ComandaModal = ({ show }) => {
             style={styles.button}
             onPress={() => {
               setShowComandaModal(!show);
+              setComanda(null);
             }}
           >
             <Text style={styles.textStyle}>X</Text>
           </Pressable>
           <View style={styles.modalBody}>
-            <View style={{ backgroundColor: "red" }}>
-              <Text>Selecione qual comanda será dividida:</Text>
+            <View style={{ marginTop: 10 }}>
+              <Text style={{ fontSize: 15, textAlign: "center" }}>
+                Selecione qual comanda será dividida:
+              </Text>
               <SelectDropdown
                 data={comandas}
                 buttonStyle={{
@@ -53,6 +57,7 @@ export const ComandaModal = ({ show }) => {
                   borderWidth: 1,
                 }}
                 buttonTextStyle={{ fontSize: 15 }}
+                defaultButtonText={"Toque para ver as comandas"}
                 rowStyle={{ height: 40 }}
                 rowTextStyle={{ fontSize: 15, alignContent: "flex-start" }}
                 dropdownStyle={{ borderRadius: 5 }}
@@ -63,7 +68,9 @@ export const ComandaModal = ({ show }) => {
                     <Icon name="chevron-down" size={25} />
                   )
                 }
-                onSelect={(comanda, i) => setComanda(comanda)}
+                onSelect={async (comanda, i) =>
+                  setComanda(await calcular(comanda.id))
+                }
                 rowTextForSelection={(comanda, i) =>
                   `COMANDA ${i + 1} - ${comanda.cliente}`
                 }
@@ -71,83 +78,92 @@ export const ComandaModal = ({ show }) => {
                   `COMANDA ${i + 1} - ${comanda.cliente}`
                 }
               />
+              {dividirCriar ? null : (
+                <>
+                  <Text
+                    style={{ fontSize: 15, textAlign: "center", marginTop: 10 }}
+                  >
+                    Informe para quantas pessoas a comanda será dividida:
+                  </Text>
+                  <View
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={styles.btn_qtd}
+                      onPress={() => {
+                        setText((Number(text) - 1).toString());
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: "#ffff",
+                          fontSize: 20,
+                        }}
+                      >
+                        -
+                      </Text>
+                    </TouchableOpacity>
+                    <TextInput
+                      activeOutlineColor="black"
+                      value={text}
+                      mode="outlined"
+                      style={{ height: 30, width: 50, textAlign: "center" }}
+                      disabled
+                    />
+                    <TouchableOpacity
+                      style={styles.btn_qtd}
+                      onPress={() => {
+                        setText((Number(text) + 1).toString());
+                      }}
+                    >
+                      <Text style={{ color: "#ffff", fontSize: 20 }}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
             </View>
-            <ScrollView style={{ width: "100%" }}>
+            <ScrollView style={{ width: "100%", marginTop: 15 }}>
               <View
                 style={{
                   borderRadius: 5,
                   backgroundColor: "#ececec",
-                  height: 510,
+                  height: !dividirCriar ? 410 : 490,
                   width: "100%",
                   alignSelf: "center",
                   alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 {dividirCriar ? (
                   <Text>Body</Text>
                 ) : (
                   <>
-                    <Text>
-                      Informe para quantas pessoas a comanda será dividida:{" "}
-                    </Text>
-                    <View
-                      style={{
-                        alignItems: "center",
-                        justifyContent: "center",
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <TouchableOpacity
-                        style={styles.btn_qtd}
-                        onPress={async () => {
-                          setText((Number(text) - 1).toString());
-                          setTotal(
-                            Number((await calcular(comanda.id)) / text).toFixed(
-                              2
-                            )
-                          );
-                        }}
-                      >
+                    {comanda ? (
+                      <>
                         <Text
-                          style={{
-                            color: "#ffff",
-                            fontSize: 20,
-                          }}
-                        >
-                          -
-                        </Text>
-                      </TouchableOpacity>
-                      <TextInput
-                        activeOutlineColor="black"
-                        value={text}
-                        mode="outlined"
-                        style={{ height: 30, width: 50 }}
-                        disabled
-                      />
-                      <TouchableOpacity
-                        style={styles.btn_qtd}
-                        onPress={async () => {
-                          setText((Number(text) + 1).toString());
-                          setTotal(
-                            Number((await calcular(comanda.id)) / text).toFixed(
-                              2
-                            )
-                          );
-                        }}
-                      >
-                        <Text style={{ color: "#ffff", fontSize: 20 }}>+</Text>
-                      </TouchableOpacity>
-                    </View>
-                    <Text>{`O valor dessa comanda dividido para ${text} pessoas é de R$ ${total} para cada.`}</Text>
+                          style={{ textAlign: "center", fontSize: 18 }}
+                        >{`O valor dessa comanda dividido para ${text} pessoas é de R$ ${sum} para cada.`}</Text>
+                      </>
+                    ) : null}
                   </>
                 )}
               </View>
             </ScrollView>
           </View>
-          <TouchableOpacity style={styles.btn_add} onPress={() => {}}>
-            <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>
-          </TouchableOpacity>
+          {dividirCriar ? (
+            <TouchableOpacity style={styles.btn_add} onPress={() => {}}>
+              <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.btn_add} onPress={() => {}}>
+              <Text style={{ color: "#ffff" }}>FINALIZAR</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </Modal>

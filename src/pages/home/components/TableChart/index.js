@@ -48,8 +48,15 @@ export const TableChart = ({ mesa, index }) => {
           <Icon name="deck" size={30} />
         </View>
         <View style={styles.table_container}>
-          <Text>Mesa {mesa.numero}</Text>
-          <Text>{mesa._count.comandas == 0 ? "Disponível" : "Ocupado"}</Text>
+          <Text style={{ fontSize: 15 }}>MESA {mesa.numero}</Text>
+          <Text
+            style={{
+              fontSize: 10,
+              color: mesa._count.comandas == 0 ? "green" : "red",
+            }}
+          >
+            {mesa._count.comandas == 0 ? "DISPONÍVEL" : "OCUPADO"}
+          </Text>
         </View>
         <View style={styles.table_description_container}>
           <Icon name="description" size={25} />
