@@ -24,7 +24,7 @@ export const Home = () => {
   const isFocused = useIsFocused();
   const [filter, setFilter] = useState(0);
   const mesasFiltradas = () => {
-    if (restaurante.mesas != null) {
+    if (restaurante != null) {
       switch (filter) {
         case 0:
           return restaurante.mesas;
@@ -41,7 +41,7 @@ export const Home = () => {
   };
   mesasFiltradas();
   useEffect(() => {
-    if (isFocused || flag) buscar("RC CHURRASCO");
+    if (isFocused || flag) buscar("TESTE");
     setFlag(false);
   }, [isFocused, flag]);
 

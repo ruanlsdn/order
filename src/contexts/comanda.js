@@ -3,6 +3,7 @@ import {
   buscarComanda,
   calcularComanda,
   criarComanda,
+  dividirComanda,
   finalizarComanda,
 } from "../services/api";
 
@@ -18,6 +19,7 @@ export const ComandaProvider = ({ children }) => {
   const [visibility, setVisibility] = useState(false);
   const [dividirCriar, setDividirCriar] = useState(false);
   const [showComandaModal, setShowComandaModal] = useState(false);
+  const pedidos = [];
 
   async function criar(data) {
     const response = await criarComanda({
@@ -44,6 +46,16 @@ export const ComandaProvider = ({ children }) => {
     setComandas(response);
   }
 
+  async function dividir(cliente) {
+    const response = await dividirComanda({
+      cliente: cliente,
+      mesa_id: mesaId,
+      comanda_id: comandaId,
+      pedidos,
+    });
+    console.log(response);
+  }
+
   async function finalizar(comandaId) {
     const response = await finalizarComanda(comandaId);
 
@@ -62,6 +74,7 @@ export const ComandaProvider = ({ children }) => {
         criar,
         buscar,
         calcular,
+        dividir,
         finalizar,
         setComandaId,
         comandaId: comandaId,
@@ -78,6 +91,7 @@ export const ComandaProvider = ({ children }) => {
         setShowComandaModal,
         dividirCriar: dividirCriar,
         setDividirCriar,
+        pedidos: pedidos,
       }}
     >
       {children}

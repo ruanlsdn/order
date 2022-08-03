@@ -13,11 +13,19 @@ import SelectDropdown from "react-native-select-dropdown";
 import Icon from "react-native-vector-icons/Feather";
 import { ComandaContext } from "../../../contexts/comanda";
 import { TextInput } from "react-native-paper";
+import { OrderModalRow } from "./order-modal-row";
 
 export const ComandaModal = ({ show }) => {
-  const { comandas, calcular, setShowComandaModal, dividirCriar } =
-    useContext(ComandaContext);
+  const {
+    setComandaId,
+    comandas,
+    calcular,
+    setShowComandaModal,
+    dividirCriar,
+    dividir,
+  } = useContext(ComandaContext);
   const [comanda, setComanda] = useState(null);
+  const [pedidos, setPedidos] = useState([]);
   const [text, setText] = useState("1");
   let sum = Number(comanda / text).toFixed(2);
 
@@ -68,9 +76,11 @@ export const ComandaModal = ({ show }) => {
                     <Icon name="chevron-down" size={25} />
                   )
                 }
-                onSelect={async (comanda, i) =>
-                  setComanda(await calcular(comanda.id))
-                }
+                onSelect={async (comanda, i) => {
+                  setComanda(await calcular(comanda.id));
+                  setPedidos(comanda.pedidos);
+                  setComandaId(comanda.id);
+                }}
                 rowTextForSelection={(comanda, i) =>
                   `COMANDA ${i + 1} - ${comanda.cliente}`
                 }
@@ -135,12 +145,10 @@ export const ComandaModal = ({ show }) => {
                   height: !dividirCriar ? 410 : 490,
                   width: "100%",
                   alignSelf: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
               >
                 {dividirCriar ? (
-                  <Text>Body</Text>
+                  pedidos.map((pedido) => <OrderModalRow item={pedido} />)
                 ) : (
                   <>
                     {comanda ? (
@@ -156,11 +164,21 @@ export const ComandaModal = ({ show }) => {
             </ScrollView>
           </View>
           {dividirCriar ? (
-            <TouchableOpacity style={styles.btn_add} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.btn_add}
+              onPress={() => {
+                dividir("TESTE DIVIDIR");
+              }}
+            >
               <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.btn_add} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.btn_add}
+              onPress={() => {
+                dividir("TESTE DIVIDIR");
+              }}
+            >
               <Text style={{ color: "#ffff" }}>FINALIZAR</Text>
             </TouchableOpacity>
           )}
