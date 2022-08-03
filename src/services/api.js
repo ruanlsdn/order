@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://10.0.2.2:3000/",
+  baseURL: "https://order-controller-api.herokuapp.com/",
 });
 
 //RESTAURANTE REQUEST
@@ -37,6 +37,7 @@ export async function buscarComanda(mesaId) {
 }
 
 export async function calcularComanda(comandaId) {
+  console.log(comandaId);
   return await (
     await api.get("api/v1/comanda/calcular/" + comandaId)
   ).data;
@@ -46,7 +47,7 @@ export async function dividirComanda(data) {
   console.log(data);
   return await (
     await api.post("api/v1/comanda/dividir", data)
-  ).data;
+  ).status;
 }
 
 export async function finalizarComanda(comandaId) {

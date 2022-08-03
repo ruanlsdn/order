@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { ScrollView, View, Text } from "react-native";
-import { Order } from "./components/order";
-import { ComandaContext } from "../../contexts/comanda";
 import { useIsFocused } from "@react-navigation/native";
+import React, { useContext, useEffect } from "react";
+import { ScrollView, Text, View } from "react-native";
+import { ComandaContext } from "../../contexts/comanda";
 import { MySnackbar } from "../home/components/snackbar";
-import { ComandaModal } from "./components/order-modal-nova-comanda";
+import { Order } from "./components/order";
+import { DividirComandaModal } from "./components/order-modal-dividir-comanda";
+import { NovaComandaModal } from "./components/order-modal-nova-comanda";
 
 export const OrderScreen = () => {
   const {
@@ -17,7 +18,8 @@ export const OrderScreen = () => {
     text,
     visibility,
     setVisibility,
-    showComandaModal,
+    showDividirComandaModal,
+    showNovaComandaModal,
   } = useContext(ComandaContext);
   const isFocused = useIsFocused();
 
@@ -48,7 +50,8 @@ export const OrderScreen = () => {
         visible={visibility}
         setVisibility={setVisibility}
       />
-      <ComandaModal show={showComandaModal} />
+      <DividirComandaModal show={showDividirComandaModal} />
+      <NovaComandaModal show={showNovaComandaModal} />
     </>
   );
 };

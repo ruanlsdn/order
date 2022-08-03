@@ -13,17 +13,19 @@ export const ComandaProvider = ({ children }) => {
   const [comandas, setComandas] = useState(new Array());
   const [flag, setFlag] = useState(false);
   const [mesaId, setMesaId] = useState("");
+  const [previousComandaId, setPreviousComandaId] = useState(null);
   const [comandaId, setComandaId] = useState("");
   const [qtdeComanda, setQtdeComanda] = useState(0);
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(false);
   const [dividirCriar, setDividirCriar] = useState(false);
-  const [showComandaModal, setShowComandaModal] = useState(false);
+  const [showNovaComandaModal, setShowNovaComandaModal] = useState(false);
+  const [showDividirComandaModal, setShowDividirComandaModal] = useState(false);
   const pedidos = [];
 
-  async function criar(data) {
+  async function criar(cliente) {
     const response = await criarComanda({
-      cliente: "CLIENTE TESTE",
+      cliente: cliente,
       mesa_id: mesaId,
     });
 
@@ -53,7 +55,13 @@ export const ComandaProvider = ({ children }) => {
       comanda_id: comandaId,
       pedidos,
     });
-    console.log(response);
+
+    if (response == 201) {
+      setVisibility(true);
+      setText("Comanda dividida com sucesso!");
+    }
+
+    setFlag(true);
   }
 
   async function finalizar(comandaId) {
@@ -78,6 +86,8 @@ export const ComandaProvider = ({ children }) => {
         finalizar,
         setComandaId,
         comandaId: comandaId,
+        previousComandaId: previousComandaId,
+        setPreviousComandaId,
         setMesaId,
         mesaId: mesaId,
         setFlag,
@@ -87,8 +97,10 @@ export const ComandaProvider = ({ children }) => {
         text: text,
         visibility: visibility,
         setVisibility,
-        showComandaModal: showComandaModal,
-        setShowComandaModal,
+        showNovaComandaModal: showNovaComandaModal,
+        setShowNovaComandaModal,
+        showDividirComandaModal: showDividirComandaModal,
+        setShowDividirComandaModal,
         dividirCriar: dividirCriar,
         setDividirCriar,
         pedidos: pedidos,

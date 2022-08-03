@@ -39,9 +39,9 @@ export const Home = () => {
       return [];
     }
   };
-  mesasFiltradas();
+
   useEffect(() => {
-    if (isFocused || flag) buscar("TESTE");
+    if (isFocused || flag) buscar("RC CHURRASCO");
     setFlag(false);
   }, [isFocused, flag]);
 

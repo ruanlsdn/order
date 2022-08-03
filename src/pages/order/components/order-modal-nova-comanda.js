@@ -2,186 +2,71 @@ import React, { useContext, useState } from "react";
 import {
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Checkbox,
 } from "react-native";
-import SelectDropdown from "react-native-select-dropdown";
-import Icon from "react-native-vector-icons/Feather";
-import { ComandaContext } from "../../../contexts/comanda";
 import { TextInput } from "react-native-paper";
-import { OrderModalRow } from "./order-modal-row";
+import { ComandaContext } from "../../../contexts/comanda";
 
-export const ComandaModal = ({ show }) => {
-  const {
-    setComandaId,
-    comandas,
-    calcular,
-    setShowComandaModal,
-    dividirCriar,
-    dividir,
-  } = useContext(ComandaContext);
-  const [comanda, setComanda] = useState(null);
-  const [pedidos, setPedidos] = useState([]);
-  const [text, setText] = useState("1");
-  let sum = Number(comanda / text).toFixed(2);
-
+export const NovaComandaModal = ({ show }) => {
+  const [text, setText] = useState("");
+  const { criar, setShowNovaComandaModal } = useContext(ComandaContext);
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={show}
       onRequestClose={() => {
-        setShowComandaModal(!show);
-        setComanda(null);
+        setShowNovaComandaModal(!show);
       }}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>DIVIDIR COMANDA</Text>
+          <Text style={styles.modalText}>NOVA COMANDA</Text>
           <Pressable
             style={styles.button}
             onPress={() => {
-              setShowComandaModal(!show);
-              setComanda(null);
+              setShowNovaComandaModal(false);
             }}
           >
             <Text style={styles.textStyle}>X</Text>
           </Pressable>
           <View style={styles.modalBody}>
-            <View style={{ marginTop: 10 }}>
-              <Text style={{ fontSize: 15, textAlign: "center" }}>
-                Selecione qual comanda será dividida:
-              </Text>
-              <SelectDropdown
-                data={comandas}
-                buttonStyle={{
-                  height: 35,
-                  width: "90%",
-                  borderRadius: 5,
-                  borderWidth: 1,
-                }}
-                buttonTextStyle={{ fontSize: 15 }}
-                defaultButtonText={"Toque para ver as comandas"}
-                rowStyle={{ height: 40 }}
-                rowTextStyle={{ fontSize: 15, alignContent: "flex-start" }}
-                dropdownStyle={{ borderRadius: 5 }}
-                renderDropdownIcon={(isOpened) =>
-                  isOpened ? (
-                    <Icon name="chevron-up" size={25} />
-                  ) : (
-                    <Icon name="chevron-down" size={25} />
-                  )
-                }
-                onSelect={async (comanda, i) => {
-                  setComanda(await calcular(comanda.id));
-                  setPedidos(comanda.pedidos);
-                  setComandaId(comanda.id);
-                }}
-                rowTextForSelection={(comanda, i) =>
-                  `COMANDA ${i + 1} - ${comanda.cliente}`
-                }
-                buttonTextAfterSelection={(comanda, i) =>
-                  `COMANDA ${i + 1} - ${comanda.cliente}`
-                }
-              />
-              {dividirCriar ? null : (
-                <>
-                  <Text
-                    style={{ fontSize: 15, textAlign: "center", marginTop: 10 }}
-                  >
-                    Informe para quantas pessoas a comanda será dividida:
-                  </Text>
-                  <View
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <TouchableOpacity
-                      style={styles.btn_qtd}
-                      onPress={() => {
-                        setText((Number(text) - 1).toString());
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: "#ffff",
-                          fontSize: 20,
-                        }}
-                      >
-                        -
-                      </Text>
-                    </TouchableOpacity>
-                    <TextInput
-                      activeOutlineColor="black"
-                      value={text}
-                      mode="outlined"
-                      style={{ height: 30, width: 50, textAlign: "center" }}
-                      disabled
-                    />
-                    <TouchableOpacity
-                      style={styles.btn_qtd}
-                      onPress={() => {
-                        setText((Number(text) + 1).toString());
-                      }}
-                    >
-                      <Text style={{ color: "#ffff", fontSize: 20 }}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
-            </View>
-            <ScrollView style={{ width: "100%", marginTop: 15 }}>
+            <View style={styles.description}>
               <View
                 style={{
-                  borderRadius: 5,
-                  backgroundColor: "#ececec",
-                  height: !dividirCriar ? 410 : 490,
-                  width: "100%",
-                  alignSelf: "center",
+                  height: 70,
+                  width: "70%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                {dividirCriar ? (
-                  pedidos.map((pedido) => <OrderModalRow item={pedido} />)
-                ) : (
-                  <>
-                    {comanda ? (
-                      <>
-                        <Text
-                          style={{ textAlign: "center", fontSize: 18 }}
-                        >{`O valor dessa comanda dividido para ${text} pessoas é de R$ ${sum} para cada.`}</Text>
-                      </>
-                    ) : null}
-                  </>
-                )}
+                <Text>Informe o nome do novo cliente:</Text>
+                <TextInput
+                  activeOutlineColor="black"
+                  value={text}
+                  mode="outlined"
+                  onChangeText={(text) => {
+                    setText(text);
+                  }}
+                  style={{ height: 30, width: "100%" }}
+                />
               </View>
-            </ScrollView>
+            </View>
           </View>
-          {dividirCriar ? (
-            <TouchableOpacity
-              style={styles.btn_add}
-              onPress={() => {
-                dividir("TESTE DIVIDIR");
-              }}
-            >
-              <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={styles.btn_add}
-              onPress={() => {
-                dividir("TESTE DIVIDIR");
-              }}
-            >
-              <Text style={{ color: "#ffff" }}>FINALIZAR</Text>
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            style={styles.btn_add}
+            onPress={() => {
+              criar(text);
+              setShowNovaComandaModal(false);
+            }}
+          >
+            <Text style={{ color: "#ffff" }}>CONFIRMAR</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -196,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    height: "90%",
+    height: 200,
     width: "95%",
     margin: 20,
     backgroundColor: "#ffff",
@@ -235,26 +120,22 @@ const styles = StyleSheet.create({
   modalBody: {
     display: "flex",
     flexDirection: "column",
-    height: "100%",
+    height: "95%",
     width: 375,
     alignItems: "center",
-
-    // backgroundColor: "red",
   },
   description: {
-    marginTop: 30,
     width: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-
-    backgroundColor: "blue",
+    justifyContent: "center",
   },
 
   btn_add: {
     position: "absolute",
     bottom: 30,
-    height: 40,
+    height: "25%",
     width: "100%",
     backgroundColor: "#3a6dff",
     borderRadius: 5,

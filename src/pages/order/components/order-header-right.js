@@ -4,13 +4,16 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { ComandaContext } from "../../../contexts/comanda";
 
 export const OrderHeaderRight = () => {
-  const { criar, setShowComandaModal, setDividirCriar } =
-    useContext(ComandaContext);
+  const {
+    setShowDividirComandaModal,
+    setDividirCriar,
+    setShowNovaComandaModal,
+  } = useContext(ComandaContext);
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          criar("data");
+          setShowNovaComandaModal(true);
         }}
       >
         <Icon name="add" size={30} />
@@ -26,7 +29,7 @@ export const OrderHeaderRight = () => {
                 text: "APENAS DIVIDIR O VALOR",
                 style: "default",
                 onPress: () => {
-                  setShowComandaModal(true);
+                  setShowDividirComandaModal(true);
                   setDividirCriar(false);
                 },
               },
@@ -34,7 +37,7 @@ export const OrderHeaderRight = () => {
                 text: "DIVIDIR E GERAR COMANDA NOVA",
                 style: "default",
                 onPress: () => {
-                  setShowComandaModal(true);
+                  setShowDividirComandaModal(true);
                   setDividirCriar(true);
                 },
               },
