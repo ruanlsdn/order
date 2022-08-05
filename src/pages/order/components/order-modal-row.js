@@ -11,8 +11,8 @@ export const OrderModalRow = ({ item }) => {
   useEffect(() => {
     if (checked) {
       for (const row of pedidos) {
-        if (row.pedidos.pedido_id == item.id) {
-          row.pedidos.quantidade = text;
+        if (row.pedido_id == item.id) {
+          row.quantidade = text;
         }
       }
     }

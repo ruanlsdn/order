@@ -20,9 +20,7 @@ export const DividirComandaModal = ({ show }) => {
     comandaId,
     setComandaId,
     comandas,
-    calcular,
     setShowDividirComandaModal,
-    setPreviousComandaId,
     dividirCriar,
     dividir,
     finalizar,
@@ -31,7 +29,7 @@ export const DividirComandaModal = ({ show }) => {
   const [pedidos, setPedidos] = useState([]);
   const [text, setText] = useState("1");
   const [cliente, setCliente] = useState("");
-  let sum = Number(comanda / text).toFixed(2);
+  let sum = comanda ? Number(comanda.total / text).toFixed(2) : "0.00";
 
   return (
     <Modal
@@ -105,10 +103,9 @@ export const DividirComandaModal = ({ show }) => {
                   )
                 }
                 onSelect={async (comanda, i) => {
-                  setComanda(await calcular(comanda.id));
                   setPedidos(comanda.pedidos);
-                  setPreviousComandaId(comanda.id);
                   setComandaId(comanda.id);
+                  setComanda(comanda);
                 }}
                 rowTextForSelection={(comanda, i) =>
                   `COMANDA ${i + 1} - ${comanda.cliente}`
@@ -178,7 +175,9 @@ export const DividirComandaModal = ({ show }) => {
                 }}
               >
                 {dividirCriar ? (
-                  pedidos.map((pedido) => <OrderModalRow item={pedido} />)
+                  pedidos.map((pedido) => (
+                    <OrderModalRow key={pedido.id} item={pedido} />
+                  ))
                 ) : (
                   <>
                     {comanda ? (

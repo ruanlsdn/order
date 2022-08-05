@@ -4,17 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Divider } from "react-native-paper";
 import { calcularComanda } from "../../../services/api";
 
-export const OrderBodySummary = ({ id }) => {
-  const [total, setTotal] = useState(0.0);
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    if (isFocused) {
-      const request = async () => setTotal(await calcularComanda(id));
-      request();
-    }
-  }, [isFocused]);
-
+export const OrderBodySummary = ({ total }) => {
   return (
     <>
       <View style={styles.container}>
@@ -22,7 +12,7 @@ export const OrderBodySummary = ({ id }) => {
           <Text>Total: </Text>
         </View>
         <View style={styles.sum_container}>
-          <Text>R$ {total.toFixed(2)}</Text>
+          <Text>R$ {total ? total.toFixed(2) : "0.00"}</Text>
         </View>
       </View>
       <Divider style={styles.divider} />

@@ -19,6 +19,7 @@ export const NovaComandaModal = ({ show }) => {
       transparent={true}
       visible={show}
       onRequestClose={() => {
+        setText("");
         setShowNovaComandaModal(!show);
       }}
     >
@@ -28,6 +29,7 @@ export const NovaComandaModal = ({ show }) => {
           <Pressable
             style={styles.button}
             onPress={() => {
+              setText("");
               setShowNovaComandaModal(false);
             }}
           >
@@ -62,6 +64,7 @@ export const NovaComandaModal = ({ show }) => {
             style={styles.btn_add}
             onPress={() => {
               criar(text);
+              setText("");
               setShowNovaComandaModal(false);
             }}
           >

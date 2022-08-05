@@ -12,24 +12,24 @@ export const Login = () => {
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
 
-  useEffect(() => {
-    const promise = async () => {
-      const response = await AsyncStorage.getItem("@isLoggedIn");
-      if (response.length == 4) {
-        const biometricsResponse = await LocalAuthentication.authenticateAsync({
-          promptMessage: "Order",
-          disableDeviceFallback: false,
-        });
-        if (biometricsResponse.success) {
-          login(
-            await AsyncStorage.getItem("@nome"),
-            await AsyncStorage.getItem("@senha")
-          );
-        }
-      }
-    };
-    promise();
-  }, []);
+  // useEffect(() => {
+  //   const promise = async () => {
+  //     const response = await AsyncStorage.getItem("@isLoggedIn");
+  //     if (response.length == 4) {
+  //       const biometricsResponse = await LocalAuthentication.authenticateAsync({
+  //         promptMessage: "Order",
+  //         disableDeviceFallback: false,
+  //       });
+  //       if (biometricsResponse.success) {
+  //         login(
+  //           await AsyncStorage.getItem("@nome"),
+  //           await AsyncStorage.getItem("@senha")
+  //         );
+  //       }
+  //     }
+  //   };
+  //   promise();
+  // }, []);
 
   return (
     <View style={styles.container}>

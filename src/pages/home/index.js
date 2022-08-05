@@ -84,7 +84,7 @@ export const Home = () => {
   );
 
   useEffect(() => {
-    if (isFocused && flag) buscar(user.restaurante_id);
+    if (isFocused || flag) buscar(user.restaurante_id);
     setFlag(false);
   }, [isFocused, flag]);
 
@@ -131,20 +131,22 @@ export const Home = () => {
 
 const styles = StyleSheet.create({
   categories_container: {
-    height: 55,
+    height: 45,
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
   },
   categories: {
-    height: 40,
-    width: 120,
+    height: 30,
+    width: 100,
     borderRadius: 5,
     backgroundColor: "#3a6dff",
     alignItems: "center",
     justifyContent: "center",
+    elevation: 7,
   },
   categories_text: {
+    fontSize: 11,
     color: "#ffff",
   },
 });

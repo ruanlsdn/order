@@ -13,7 +13,7 @@ export const Order = ({ comanda, index }) => {
       <View style={styles.container}>
         <OrderHeader id={comanda.id} />
         <OrderBody pedidos={comanda.pedidos} />
-        <OrderBodySummary id={comanda.id} />
+        <OrderBodySummary total={comanda.total} />
         <OrderFooter comanda={comanda} />
       </View>
       <OrderDivisory text="FIM" />

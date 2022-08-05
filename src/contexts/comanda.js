@@ -13,7 +13,6 @@ export const ComandaProvider = ({ children }) => {
   const [comandas, setComandas] = useState(new Array());
   const [flag, setFlag] = useState(false);
   const [mesaId, setMesaId] = useState("");
-  const [previousComandaId, setPreviousComandaId] = useState(null);
   const [comandaId, setComandaId] = useState("");
   const [qtdeComanda, setQtdeComanda] = useState(0);
   const [text, setText] = useState("");
@@ -36,10 +35,6 @@ export const ComandaProvider = ({ children }) => {
 
     setQtdeComanda(1);
     setFlag(true);
-  }
-
-  async function calcular(comandaId) {
-    return await calcularComanda(comandaId);
   }
 
   async function buscar(mesaId) {
@@ -81,13 +76,10 @@ export const ComandaProvider = ({ children }) => {
         comandas: comandas,
         criar,
         buscar,
-        calcular,
         dividir,
         finalizar,
         setComandaId,
         comandaId: comandaId,
-        previousComandaId: previousComandaId,
-        setPreviousComandaId,
         setMesaId,
         mesaId: mesaId,
         setFlag,
