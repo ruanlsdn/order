@@ -2,18 +2,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { ActivityIndicator, Colors, TextInput } from "react-native-paper";
 import { AuthContext } from "../../contexts/auth";
 import { MySnackbar } from "../home/components/snackbar";
 
 export const Login = () => {
-  const { login, text, setVisibility, visibility } = useContext(AuthContext);
+  const { login, text, setVisibility, visibility, isAnimating } =
+    useContext(AuthContext);
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
 
   useEffect(() => {
     const promise = async () => {
-      console.log(await AsyncStorage.getAllKeys());
       const response = await AsyncStorage.getItem("@isLoggedIn");
       if (response.length == 4) {
         const biometricsResponse = await LocalAuthentication.authenticateAsync({
@@ -61,6 +61,12 @@ export const Login = () => {
               setSenha(text);
             }}
           />
+          <ActivityIndicator
+            style={{ position: "absolute", bottom: 10, left: "50%" }}
+            size="small"
+            animating={isAnimating}
+            color={Colors.black}
+          />
         </View>
 
         <TouchableOpacity
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   button: {
-    width: "95%",
+    width: "100%",
     backgroundColor: "#3a6dff",
     height: 35,
     borderRadius: 5,

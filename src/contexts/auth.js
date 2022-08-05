@@ -9,9 +9,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const navigation = useNavigation();
 
   async function login(nome, senha) {
+    setIsAnimating(true);
+
     let funcionario;
 
     try {
@@ -23,10 +26,12 @@ export const AuthProvider = ({ children }) => {
         await AsyncStorage.setItem("@senha", senha);
       };
       promise();
+      setIsAnimating(false);
       navigation.navigate("Home");
     } catch (error) {
       setText(`Erro: ${error.message}`);
       setVisibility(true);
+      setIsAnimating(false);
     }
   }
 
@@ -38,34 +43,10 @@ export const AuthProvider = ({ children }) => {
         text: text,
         visibility: visibility,
         setVisibility,
+        isAnimating: isAnimating,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
-//  Alert.alert(
-//    "Deseja sair de sua conta?",
-//    "Você será redirecionado para a tela de login.",
-//    [
-//      {
-//        text: "Não",
-//        style: "cancel",
-//        onPress: () => {},
-//      },
-//      {
-//        text: "Sair",
-//        style: "destructive",
-//        onPress: () => {
-//          navigation.dispatch(action);
-//          reset();
-//          const promise = async () => {
-//            await AsyncStorage.setItem("@isLoggedIn", "false");
-//            await AsyncStorage.multiRemove(["@username", "@password"]);
-//          };
-//          promise();
-//        },
-//      },
-//    ]
-//  );
