@@ -1,6 +1,8 @@
-import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,6 +27,7 @@ export const Home = () => {
   } = useContext(RestauranteContext);
   const isFocused = useIsFocused();
   const [filter, setFilter] = useState(0);
+  const navigation = useNavigation();
 
   const mesasFiltradas = () => {
     if (restaurante != null) {
@@ -45,6 +48,40 @@ export const Home = () => {
   useEffect(() => {
     buscar(user.restaurante_id);
   }, []);
+
+  useEffect(
+    () =>
+      navigation.addListener("beforeRemove", (e) => {
+        const action = e.data.action;
+
+        e.preventDefault();
+
+        Alert.alert(
+          "Deseja sair de sua conta?",
+          "Você será redirecionado para a tela de login.",
+          [
+            {
+              text: "Não",
+              style: "cancel",
+              onPress: () => {},
+            },
+            {
+              text: "Sair",
+              style: "destructive",
+              onPress: () => {
+                navigation.dispatch(action);
+                const promise = async () => {
+                  await AsyncStorage.setItem("@isLoggedIn", "false");
+                  await AsyncStorage.multiRemove(["@nome", "@senha"]);
+                };
+                promise();
+              },
+            },
+          ]
+        );
+      }),
+    [navigation]
+  );
 
   useEffect(() => {
     if (isFocused && flag) buscar(user.restaurante_id);

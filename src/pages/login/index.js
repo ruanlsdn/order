@@ -1,5 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as LocalAuthentication from "expo-local-authentication";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useContext, useState } from "react";
 import { TextInput } from "react-native-paper";
 import { AuthContext } from "../../contexts/auth";
 import { MySnackbar } from "../home/components/snackbar";
@@ -8,6 +10,26 @@ export const Login = () => {
   const { login, text, setVisibility, visibility } = useContext(AuthContext);
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
+
+  useEffect(() => {
+    const promise = async () => {
+      console.log(await AsyncStorage.getAllKeys());
+      const response = await AsyncStorage.getItem("@isLoggedIn");
+      if (response.length == 4) {
+        const biometricsResponse = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Order",
+          disableDeviceFallback: false,
+        });
+        if (biometricsResponse.success) {
+          login(
+            await AsyncStorage.getItem("@nome"),
+            await AsyncStorage.getItem("@senha")
+          );
+        }
+      }
+    };
+    promise();
+  }, []);
 
   return (
     <View style={styles.container}>
