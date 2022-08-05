@@ -7,11 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { AuthContext } from "../../contexts/auth";
 import { RestauranteContext } from "../../contexts/restaurante";
 import { MySnackbar } from "./components/snackbar";
 import { TableChart } from "./components/TableChart";
 
 export const Home = () => {
+  const { user } = useContext(AuthContext);
   const {
     restaurante,
     buscar,
@@ -23,6 +25,7 @@ export const Home = () => {
   } = useContext(RestauranteContext);
   const isFocused = useIsFocused();
   const [filter, setFilter] = useState(0);
+
   const mesasFiltradas = () => {
     if (restaurante != null) {
       switch (filter) {
@@ -35,13 +38,16 @@ export const Home = () => {
         default:
           return [];
       }
-    } else {
-      return [];
     }
+    return [];
   };
 
   useEffect(() => {
-    if (isFocused || flag) buscar("RC CHURRASCO");
+    buscar(user.restaurante_id);
+  }, []);
+
+  useEffect(() => {
+    if (isFocused && flag) buscar(user.restaurante_id);
     setFlag(false);
   }, [isFocused, flag]);
 

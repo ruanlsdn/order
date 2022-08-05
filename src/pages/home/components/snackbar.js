@@ -1,10 +1,9 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Snackbar } from "react-native-paper";
-import { RestauranteContext } from "../../../contexts/restaurante";
+import { Snackbar } from "react-native-paper";
 
 export const MySnackbar = ({ visible, text, setVisibility }) => {
   const onDismissSnackBar = () => setVisibility(false);
+
   return (
     <Snackbar
       visible={visible}
@@ -15,16 +14,9 @@ export const MySnackbar = ({ visible, text, setVisibility }) => {
           // Do something
         },
       }}
-      duration={750}
+      duration={850}
     >
       {text}
     </Snackbar>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "space-between",
-//   },
-// });

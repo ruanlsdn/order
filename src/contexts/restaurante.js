@@ -9,8 +9,8 @@ export const RestauranteProvider = ({ children }) => {
   const [text, setText] = useState("");
   const [visibility, setVisibility] = useState(false);
 
-  async function buscar(nome) {
-    setRestaurante(await buscarRestaurante(nome));
+  async function buscar(id) {
+    setRestaurante(await buscarRestaurante(id));
   }
 
   async function novaMesa() {

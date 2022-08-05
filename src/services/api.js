@@ -1,13 +1,20 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://order-controller-api.herokuapp.com/",
+  baseURL: "http://10.0.2.2:3000/",
+  // baseURL: "https://order-controller-api.herokuapp.com/",
 });
 
-//RESTAURANTE REQUEST
-export async function buscarRestaurante(name) {
+export async function efetuarLogin(data) {
   return await (
-    await api.get("api/v1/restaurante/" + name)
+    await api.post("api/v1/auth/login", data)
+  ).data;
+}
+
+//RESTAURANTE REQUEST
+export async function buscarRestaurante(id) {
+  return await (
+    await api.get("api/v1/restaurante/" + id)
   ).data;
 }
 
