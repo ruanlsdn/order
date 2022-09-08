@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  // baseURL: "http://localhost:3000/",
+  // baseURL: "http://localhost:8080/",
   // baseURL: "http://10.0.2.2:3000/",
   baseURL: "https://order-controller-api.herokuapp.com/",
 });
@@ -19,9 +19,16 @@ export async function buscarRestaurante(id) {
   ).data;
 }
 
+//MESA REQUEST
 export async function criarMesa(data) {
   return await (
     await api.post("api/v1/mesa", data)
+  ).status;
+}
+
+export async function atualizarMesa(mesaId, data) {
+  return await (
+    await api.patch("api/v1/mesa/" + mesaId, data)
   ).status;
 }
 

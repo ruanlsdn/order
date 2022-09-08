@@ -1,5 +1,10 @@
 import { createContext, useState } from "react";
-import { apagarMesa, buscarRestaurante, criarMesa } from "../services/api";
+import {
+  apagarMesa,
+  atualizarMesa,
+  buscarRestaurante,
+  criarMesa,
+} from "../services/api";
 
 export const RestauranteContext = createContext({});
 
@@ -27,6 +32,15 @@ export const RestauranteProvider = ({ children }) => {
     setFlag(true);
   }
 
+  async function atualizar(mesaId, data) {
+    const response = await atualizarMesa(mesaId, data);
+    if (response == 200) {
+      setVisibility(true);
+      setText("Mesa atualizada com sucesso!");
+    }
+    setFlag(true);
+  }
+
   async function apagar(mesaId) {
     const response = await apagarMesa(mesaId);
     if (response == 204) {
@@ -47,6 +61,7 @@ export const RestauranteProvider = ({ children }) => {
         restaurante: restaurante,
         buscar,
         novaMesa,
+        atualizar,
         apagar,
       }}
     >

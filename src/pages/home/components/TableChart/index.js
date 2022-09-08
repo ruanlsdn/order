@@ -12,36 +12,61 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { ComandaContext } from "../../../../contexts/comanda";
 import { RestauranteContext } from "../../../../contexts/restaurante";
 
-export const TableChart = ({ mesa, index }) => {
+export const TableChart = ({ mesa }) => {
   const navigation = useNavigation();
-  const { apagar } = useContext(RestauranteContext);
+  const { apagar, atualizar } = useContext(RestauranteContext);
   const { buscar, setMesaId, setQtdeComanda } = useContext(ComandaContext);
+  let mesaStatus;
+
+  if (mesa.agregada) {
+    mesaStatus = "AGREGADA";
+  } else if (mesa._count.comandas > 0) {
+    mesaStatus = "OCUPADA";
+  } else {
+    mesaStatus = "DISPONÍVEL";
+  }
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        buscar(mesa.id);
-        setMesaId(mesa.id);
-        setQtdeComanda(mesa._count.comandas);
-        navigation.navigate("OrderScreen");
+        if (!mesa.agregada) {
+          buscar(mesa.id);
+          setMesaId(mesa.id);
+          setQtdeComanda(mesa._count.comandas);
+          navigation.navigate("OrderScreen");
+        }
       }}
-      onLongPress={() =>
+      onLongPress={() => {
         Alert.alert(
-          "Deseja apagar essa mesa?",
-          "Todas as informações serão perdidas.",
+          "Informe a ação que deseja executar.",
+          "Toque no botão correspondente.",
           [
-            { text: "NÃO", style: "cancel", onPress: () => {} },
+            mesa._count.comandas == 0
+              ? {
+                  text: mesa.agregada ? "SEPARAR MESA" : "AGREGAR MESA",
+                  style: "destructive",
+                  onPress: () =>
+                    mesa.agregada
+                      ? atualizar(mesa.id, { agregada: false })
+                      : atualizar(mesa.id, { agregada: true }),
+                }
+              : null,
             {
-              text: "APAGAR",
+              text: "APAGAR MESA",
               style: "destructive",
               onPress: () => {
                 apagar(mesa.id);
               },
             },
+            {
+              text: "CANCELAR",
+              style: "destructive",
+              onPress: () => {},
+            },
           ]
-        )
-      }
+        );
+      }}
     >
       <View style={styles.content_container}>
         <View style={styles.icon_container}>
@@ -52,10 +77,11 @@ export const TableChart = ({ mesa, index }) => {
           <Text
             style={{
               fontSize: 10,
-              color: mesa._count.comandas == 0 ? "green" : "red",
+              color:
+                mesa._count.comandas == 0 && !mesa.agregada ? "green" : "red",
             }}
           >
-            {mesa._count.comandas == 0 ? "DISPONÍVEL" : "OCUPADO"}
+            {mesaStatus}
           </Text>
         </View>
         <View style={styles.table_description_container}>

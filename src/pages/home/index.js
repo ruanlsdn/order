@@ -35,8 +35,12 @@ export const Home = () => {
         case 0:
           return restaurante.mesas;
         case 1:
-          return restaurante.mesas.filter((mesa) => mesa._count.comandas == 0);
+          return restaurante.mesas.filter((mesa) => mesa.agregada);
         case 2:
+          return restaurante.mesas.filter(
+            (mesa) => mesa._count.comandas == 0 && !mesa.agregada
+          );
+        case 3:
           return restaurante.mesas.filter((mesa) => mesa._count.comandas > 0);
         default:
           return [];
@@ -95,28 +99,37 @@ export const Home = () => {
   ) : (
     <>
       <View style={styles.categories_container}>
-        <TouchableOpacity
-          style={styles.categories}
-          onPress={() => setFilter(0)}
-        >
-          <Text style={styles.categories_text}>TODAS</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.categories}
-          onPress={() => setFilter(1)}
-        >
-          <Text style={styles.categories_text}>DISPONÍVEL</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.categories}
-          onPress={() => setFilter(2)}
-        >
-          <Text style={styles.categories_text}>OCUPADO</Text>
-        </TouchableOpacity>
+        <ScrollView horizontal>
+          <TouchableOpacity
+            style={styles.categories}
+            onPress={() => setFilter(0)}
+          >
+            <Text style={styles.categories_text}>TODAS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.categories}
+            onPress={() => setFilter(1)}
+          >
+            <Text style={styles.categories_text}>AGREGADAS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.categories}
+            onPress={() => setFilter(2)}
+          >
+            <Text style={styles.categories_text}>DISPONÍVEIS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.categories}
+            onPress={() => setFilter(3)}
+          >
+            <Text style={styles.categories_text}>OCUPADAS</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
+
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {mesasFiltradas().map((mesa, i) => (
-          <TableChart key={mesa.id} mesa={mesa} index={i} />
+        {mesasFiltradas().map((mesa) => (
+          <TableChart key={mesa.id} mesa={mesa} />
         ))}
       </ScrollView>
 
@@ -131,19 +144,21 @@ export const Home = () => {
 
 const styles = StyleSheet.create({
   categories_container: {
-    height: 45,
+    height: 60,
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
   },
   categories: {
-    height: 30,
+    height: 40,
     width: 100,
     borderRadius: 5,
     backgroundColor: "#3a6dff",
     alignItems: "center",
     justifyContent: "center",
     elevation: 7,
+    marginRight: 10,
   },
   categories_text: {
     fontSize: 11,
