@@ -60,6 +60,7 @@ export const Login = () => {
             onChangeText={(text) => {
               setSenha(text);
             }}
+            secureTextEntry
           />
           <ActivityIndicator
             style={{ position: "absolute", bottom: 10, left: "50%" }}
