@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   // baseURL: "http://localhost:8080/",
-  // baseURL: "http://10.0.2.2:3000/",
+  // baseURL: "http://10.0.2.2:8080/",
   baseURL: "https://order-controller-api.herokuapp.com/",
 });
 
@@ -99,5 +99,11 @@ export async function buscarCategorias() {
 export async function novoPedido(data) {
   return await (
     await api.post("api/v1/pedido", data)
+  ).status;
+}
+
+export async function atualizarPedido(pedidoId, data) {
+  return await (
+    await api.patch(`api/v1/pedido/${pedidoId}`, data)
   ).status;
 }

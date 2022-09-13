@@ -1,28 +1,41 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { OrderModalRemoveProduct } from "./order-modal-remove-product";
 
 export const OrderBodyRow = ({ item }) => {
+  const [show, setShowModal] = useState(false);
   return (
-    <View style={styles.container}>
-      <View style={styles.content_container}>
-        <View style={styles.icon_container}>
-          <Icon name="tapas" size={20} />
+    <>
+      <TouchableOpacity onLongPress={() => setShowModal(!show)}>
+        <View style={styles.container}>
+          <View style={styles.content_container}>
+            <View style={styles.icon_container}>
+              <Icon name="tapas" size={20} />
+            </View>
+            <View style={styles.table_name}>
+              <Text style={{ fontSize: 12 }}>{item.produto.descricao} </Text>
+              <Text style={{ fontSize: 10, color: "#828282" }}>
+                {item.produto.Categoria.descricao}
+              </Text>
+            </View>
+            <View style={styles.table_description}>
+              <Text style={{ fontSize: 12 }}>Quant.</Text>
+              <Text style={{ fontSize: 10, color: "#828282" }}>
+                x{item.quantidade}
+              </Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.table_name}>
-          <Text style={{ fontSize: 12 }}>{item.produto.descricao} </Text>
-          <Text style={{ fontSize: 10, color: "#828282" }}>
-            {item.produto.Categoria.descricao}
-          </Text>
-        </View>
-        <View style={styles.table_description}>
-          <Text style={{ fontSize: 12 }}>Quant.</Text>
-          <Text style={{ fontSize: 10, color: "#828282" }}>
-            x{item.quantidade}
-          </Text>
-        </View>
-      </View>
-    </View>
+      </TouchableOpacity>
+      <OrderModalRemoveProduct
+        show={show}
+        setShowModal={setShowModal}
+        pedido={item.id}
+        produto={item.produto}
+        qtd={item.quantidade}
+      />
+    </>
   );
 };
 

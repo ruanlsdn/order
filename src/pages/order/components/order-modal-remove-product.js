@@ -12,9 +12,15 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { ComandaContext } from "../../../contexts/comanda";
 import { PedidoContext } from "../../../contexts/pedido";
 
-export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
+export const OrderModalRemoveProduct = ({
+  show,
+  setShowModal,
+  pedido,
+  produto,
+  qtd,
+}) => {
   const [text, setText] = useState("1");
-  const { novo } = useContext(PedidoContext);
+  const { atualizar } = useContext(PedidoContext);
   const { setFlag } = useContext(ComandaContext);
   return (
     <Modal
@@ -27,7 +33,7 @@ export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>ADICIONAR PRODUTO</Text>
+          <Text style={styles.modalText}>REMOVER PRODUTO</Text>
           <Pressable
             style={styles.button}
             onPress={() => {
@@ -69,7 +75,7 @@ export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
                 }}
               >
                 <Text>Quant.</Text>
-                <Text>{text}</Text>
+                <Text>{qtd}</Text>
               </View>
             </View>
             <View
@@ -104,18 +110,20 @@ export const MenuBodyRowModal = ({ show, setShowModal, produto }) => {
                 style={{ height: 30, width: 50, textAlign: "center" }}
                 disabled
               />
-              <TouchableOpacity
-                style={styles.btn_qtd}
-                onPress={() => setText((Number(text) + 1).toString())}
-              >
-                <Text style={{ color: "#ffff", fontSize: 20 }}>+</Text>
-              </TouchableOpacity>
+              {text < qtd && (
+                <TouchableOpacity
+                  style={styles.btn_qtd}
+                  onPress={() => setText((Number(text) + 1).toString())}
+                >
+                  <Text style={{ color: "#ffff", fontSize: 20 }}>+</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <TouchableOpacity
             style={styles.btn_add}
             onPress={() => {
-              novo(text, produto.id);
+              atualizar(pedido, text);
               setShowModal(!show);
               setText("1");
               setFlag(true);

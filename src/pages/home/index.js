@@ -99,7 +99,7 @@ export const Home = () => {
   ) : (
     <>
       <View style={styles.categories_container}>
-        <ScrollView horizontal>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           <TouchableOpacity
             style={styles.categories}
             onPress={() => setFilter(0)}
@@ -128,9 +128,17 @@ export const Home = () => {
       </View>
 
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {mesasFiltradas().map((mesa) => (
-          <TableChart key={mesa.id} mesa={mesa} />
-        ))}
+        {mesasFiltradas().length > 0 ? (
+          mesasFiltradas().map((mesa) => (
+            <TableChart key={mesa.id} mesa={mesa} />
+          ))
+        ) : (
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 20 }}>Nenhuma mesa nesta categoria.</Text>
+          </View>
+        )}
       </ScrollView>
 
       <MySnackbar

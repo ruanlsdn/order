@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ComandaContext } from "../../../contexts/comanda";
 import { ProdutoContext } from "../../../contexts/produto";
 import { RestauranteContext } from "../../../contexts/restaurante";
-import { finalizarComanda } from "../../../services/api";
 
 export const OrderFooter = ({ comanda }) => {
   const navigation = useNavigation();
@@ -25,9 +24,26 @@ export const OrderFooter = ({ comanda }) => {
         <Text style={styles.text}>ADICIONAR PRODUTO</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          finalizar(comanda.id);
-        }}
+        onPress={() =>
+          Alert.alert(
+            "Deseja finalizar esta comanda?",
+            "Nenhum tipo de alteração poderá ser realizada após finalizar.",
+            [
+              {
+                text: "FINALIZAR",
+                style: "default",
+                onPress: () => {
+                  finalizar(comanda.id);
+                },
+              },
+              {
+                text: "VOLTAR",
+                style: "default",
+                onPress: () => {},
+              },
+            ]
+          )
+        }
         style={styles.btn_close}
       >
         <Text style={styles.text}>FINALIZAR COMANDA</Text>

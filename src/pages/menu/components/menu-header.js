@@ -23,7 +23,7 @@ export const MenuHeader = () => {
           right={
             <TextInput.Icon
               style={{ marginTop: 15 }}
-              onPress={() => buscarPeloNome(text, restaurante.id)}
+              onPress={() => buscarPeloNome(text.toUpperCase(), restaurante.id)}
               name="magnify"
             />
           }

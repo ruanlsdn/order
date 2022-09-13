@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { novoPedido } from "../services/api";
+import { atualizarPedido, novoPedido } from "../services/api";
 import { ComandaContext } from "./comanda";
 
 export const PedidoContext = createContext({});
@@ -22,9 +22,26 @@ export const PedidoProvider = ({ children }) => {
     }
   }
 
+  async function atualizar(pedidoId, quantidade) {
+    const response = await atualizarPedido(pedidoId, {
+      quantidade: Number(quantidade),
+    });
+
+    if (response == 200) {
+      setText("Pedido atualizado com sucesso!");
+      setVisibility(true);
+    }
+  }
+
   return (
     <PedidoContext.Provider
-      value={{ novo, text: text, visibility: visibility, setVisibility }}
+      value={{
+        novo,
+        atualizar,
+        text: text,
+        visibility: visibility,
+        setVisibility,
+      }}
     >
       {children}
     </PedidoContext.Provider>
