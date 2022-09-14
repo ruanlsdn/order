@@ -1,14 +1,18 @@
 {
   "expo": {
-    "name": "order_frontend",
-    "slug": "order_frontend",
+    "name": "Comanda Digital",
+    "slug": "comanda_digital",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+     "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#ffffff",
+      "translucent": false
+    },
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
